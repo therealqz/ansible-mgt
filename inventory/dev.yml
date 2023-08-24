@@ -1,3 +1,4 @@
+# My Project hosts
 [NFS]
 172.31.15.147 ansible_ssh_user='ec2-user'
 
@@ -6,7 +7,7 @@
 172.31.15.27 ansible_ssh_user='ec2-user'
 
 [lb]
-172.31.32.90 ansible_ssh_user='ec2-user' 
+172.31.32.90 ansible_ssh_user='ubuntu' 
 
 [db]
 172.31.14.69 ansible_ssh_user='ubuntu'

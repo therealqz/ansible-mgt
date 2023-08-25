@@ -1,13 +1,13 @@
 # My Project hosts
 [NFS]
-172.31.15.147 ansible_ssh_user='ec2-user'
+3.22.199.173 ansible_ssh_user='ec2-user'
 
 [webservers]
-172.31.12.10 ansible_ssh_user='ec2-user'
-172.31.15.27 ansible_ssh_user='ec2-user'
+3.131.13.133 ansible_ssh_user='ec2-user'
+18.116.40.242 ansible_ssh_user='ec2-user'
 
-[lb]
-172.31.32.90 ansible_ssh_user='ubuntu' 
+[loadbalancer]
+18.218.43.209 ansible_ssh_user='ubuntu' 
 
 [db]
-172.31.14.69 ansible_ssh_user='ubuntu'
+18.118.151.145 ansible_ssh_user='ubuntu'

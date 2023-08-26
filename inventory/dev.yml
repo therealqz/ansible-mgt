@@ -9,5 +9,5 @@
 [db]
 3.145.176.16 ansible_ssh_user='ubuntu'
 
-[loadbalancer]
+[lb]
 18.218.43.209 ansible_ssh_user='ubuntu' 

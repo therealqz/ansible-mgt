@@ -1,0 +1,8 @@
+---
+- name: Import common.yml to site.yml
+  hosts: all
+  import_playbook: ../static-assignments/common.yml 
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+

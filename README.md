@@ -24,7 +24,7 @@ Change permissions to this directory, so Jenkins could save files there – `chm
 
 Go to Jenkins web console -> Manage Jenkins -> Manage Plugins -> on Available tab search for Copy Artifact and install this plugin without restarting Jenkins
 
-![Jenkins-Copy plugin](/jenkins-copyartifacts.png)
+![Jenkins-Copy plugin](images/jenkins-copyartifacts.png)
 
 screenshoT **'
 
@@ -34,7 +34,7 @@ This project will be triggered by completion of your existing ansible project. C
 
 
 screenshots 
-![jenkins-save](/Screenshot%202023-08-25%20at%2023.08.03.png)
+![jenkins-save](images/Screenshot%202023-08-25%20at%2023.08.03.png)
 
 Note: You can configure number of builds to keep in order to save space on the server, for example, you might want to keep only last 2 or 5 build results. You can also make this change to your ansible job.
 
@@ -42,7 +42,7 @@ The main idea of save_artifacts project is to save artifacts into `/home/ubuntu/
 
 To achieve this, create a Build step and choose Copy artifacts from other project, specify ansible as a source project and /home/ubuntu/ansible-config-artifact as a target directory.
 
-![Build-Steps](/build-step.png)
+![Build-Steps](images/build-step.png)
 
 ---
 
@@ -54,7 +54,7 @@ Now your Jenkins pipeline is neater
 
 Verify the presence of the artifacts on the server .
 
-![verify-artifacts](/verify-artifacts.png)
+![verify-artifacts](images/verify-artifacts.png)
 ---
 
 #### 
@@ -83,11 +83,11 @@ Let see code re-use in action by importing other playbooks.
 
 4. Inside site.yml file, import common.yml playbook.
 
-![ImportCommon](/importCommon.png)
+![ImportCommon](images/importCommon.png)
 
 Your folder structure should now loook like this . The `tree` command helps.
 
-![Tree](/tree.png)
+![Tree](images/tree.png)
 
 
 5. Run ansible-playbook command against the dev environment
@@ -123,7 +123,7 @@ Since you need to apply some tasks to your dev servers and wireshark is already 
       autoremove: yes
       purge: yes
       autoclean: yes`
-      
+
 update site.yml with - import_playbook: ../static-assignments/common-del.yml instead of common.yml and run it against dev servers:
 
 `cd /home/ubuntu/ansible-mgt/`
@@ -134,12 +134,18 @@ update site.yml with - import_playbook: ../static-assignments/common-del.yml ins
 
 Now you have learned how to use import_playbooks module and you have a ready solution to install/delete packages on multiple servers with just one command
 
+Before running your playbook, you can pass a `--check` flag to your command to do a validation first.
+
+![Delete Wireshark](images/delete-wireshark.png)
+
 ---
 ________________
 
 CONFIGURE UAT WEBSERVERS WITH A ROLE ‘WEBSERVER’
 
 **Step 3** – Configure UAT Webservers with a role ‘Webserver’
+---
+
 
 
 
@@ -154,10 +160,42 @@ To create a role, you must create a directory called roles/, relative to the pla
 There are two ways how you can create this folder structure:
 
 Use an Ansible utility called ansible-galaxy inside ansible-config-mgt/roles directory (you need to create roles directory upfront)
-mkdir roles
-cd roles
-ansible-galaxy init webserver
+
+`mkdir roles`
+`cd roles`
+`ansible-galaxy init webserver`
+
 Create the directory/files structure manually
 Note: You can choose either way, but since you store all your codes in GitHub, it is recommended to create folders and files there rather than locally on Jenkins-Ansible server.
 
 The entire folder structure should look like below, but if you create it manually – you can skip creating tests, files, and vars or remove them if you used ansible-galaxy
+
+![Tree](images/roles-tree.png)
+
+---
+
+#### 
+
+REFERENCE THE WEBSERVER ROLE
+
+
+Within the **static-assignments** folder, create a new assignment for uat-webservers `uat-webservers.yml` This is where you will reference the role.
+
+![Reference-Role](images/reference-Roles.png)
+
+Remember that the entry point to our ansible configuration is the `site.yml` file. Therefore, you need to refer your `uat-webservers.yml` role inside `site.yml`
+
+![]()
+
+#### Step 5 – Commit & Test
+
+Commit your changes, create a Pull Request and merge them to master branch, **_make sure webhook triggered two consequent Jenkins jobs_**,f they ran successfully and copied all the files to your Jenkins-Ansible server into /home/ubuntu/ansible-config-mgt/ directory.
+
+Now run the playbook against your uat inventory and see what happens:
+
+`sudo ansible-playbook -i /home/ubuntu/ansible-mgt/inventory/uat.yml /  home/ubuntu/ansible-config-mgt/playbooks/site.yaml`
+
+You should be able to see both of your UAT Web servers configured and you can try to reach them from your browser:
+
+
+

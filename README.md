@@ -219,7 +219,8 @@ Now the achitecture looks like this .
 
 [Architecture](/images/architecture.png)
 
-DONE .  
+
+
 
 
 

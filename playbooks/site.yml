@@ -6,7 +6,7 @@
   become: yes
   become_user: root
 
----
+
 - hosts: all
 - import_playbook: ../static-assignments/common.yml
 

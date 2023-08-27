@@ -1,5 +1,5 @@
 # ansible-mgt
-Continuous Integration of code to the pipeline with  ansible. & MORE
+Continuous Integration /CD to the pipeline with  ansible. & MORE
 
 #####
 ANSIBLE REFACTORING AND STATIC ASSIGNMENTS (IMPORTS AND ROLES)
@@ -191,11 +191,35 @@ Remember that the entry point to our ansible configuration is the `site.yml` fil
 
 Commit your changes, create a Pull Request and merge them to master branch, **_make sure webhook triggered two consequent Jenkins jobs_**,f they ran successfully and copied all the files to your Jenkins-Ansible server into /home/ubuntu/ansible-config-mgt/ directory.
 
+
+
 Now run the playbook against your uat inventory and see what happens:
 
-`sudo ansible-playbook -i /home/ubuntu/ansible-mgt/inventory/uat.yml /  home/ubuntu/ansible-config-mgt/playbooks/site.yaml`
+`sudo ansible-playbook -i /home/ubuntu/ansible-config-artifact/inventory/uat.yml /  home/ubuntu/ansible-config-artifact/playbooks/site.yml`
 
 You should be able to see both of your UAT Web servers configured and you can try to reach them from your browser:
 
 
-test2
+tests and screenshots.
+
+![play](/images/Playbook-works.png)
+
+![uat-webserver](/images/website-dir.png)
+
+![website](/images/website.png)
+
+AWS dashboard showing the servers
+
+![aws-dashboard](/images/aws-console.png)
+
+Day I completed this.
+![date](/images/project-date.png)
+
+Now the achitecture looks like this .
+
+[Architecture](/images/architecture.png)
+
+DONE .  
+
+
+

@@ -299,7 +299,7 @@ import_tasks
 
 We made use of a special variables { playbook_dir } and { inventory_file }. { playbook_dir } will help Ansible to determine the location of the running playbook, and from there navigate to other path on the filesystem. { inventory_file } on the other hand will dynamically resolve to the name of the inventory file being used, then append .yml so that it picks up the required file within the env-vars folder.
 
-We are including the variables using a loop. with_first_found implies that, looping through the list of files, the first one found is used. This is good so that we can always set default values in case an environment specific env file does not exist
+We are including the variables using a loop. `with_first_found` implies that, looping through the list of files, the first one found is used. This is good so that we can always set default values in case an environment specific env file does not exist
 
 
 ---
@@ -326,7 +326,9 @@ Update site.yml file to make use of the dynamic assignment. At this point, we ca
 
 ```
 
-#### Community Roles #
+#### 
+Community Roles 
+#
 
 
 Now it is time to create a role for MySQL database – it should install the MySQL package, create a database and configure users. But why should we re-invent the wheel? There are tons of roles that have already been developed by other open source engineers out there. These roles are actually production ready, and dynamic to accomodate most of Linux flavours. With Ansible Galaxy again, we can simply download a ready to use ansible role, and keep going.
@@ -354,3 +356,4 @@ git branch roles-feature
 git switch roles-feature
 
 ```
+git

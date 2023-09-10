@@ -121,3 +121,33 @@ Create a jenkinsfile to build the Jenkinsfile gradually. This pipeline currently
 
 ![jenkinsfile](/images/jenkinsfile.png)
 
+---
+Now go back into the Ansible pipeline in Jenkins, and select configure
+
+Scroll down to Build Configuration section and specify the location of the Jenkinsfile at deploy/Jenkinsfile
+
+This will trigger a build and you will be able to see the effect of our basic Jenkinsfile configuration by going through the console output of the build.
+
+To really appreciate and feel the difference of Cloud Blue UI, it is recommended to try triggering the build again from Blue Ocean interface.
+
+![blueocean-cicd/test](/images/blueocean-cicd.png)
+
+---
+
+##### RUNNING ANSIBLE PLAYBOOK FROM JENKINS
+
+Now that you have a broad overview of a typical Jenkins pipeline. Let us get the actual Ansible deployment to work by:
+
+- Installing Ansible on Jenkins
+- Installing Ansible plugin in Jenkins UI
+- Creating Jenkinsfile from scratch. (Delete all you currently have in there and start all over to get Ansible to run successfully)
+
+You can watch a 10 minutes video here to guide you through the entire setup
+
+Note: Ensure that Ansible runs against the Dev environment successfully.
+
+Possible errors to watch out for:
+
+> Ensure that the git module in Jenkinsfile is checking out SCM to main branch instead of master (GitHub has discontinued the use of te word *Master*)
+
+Jenkins needs to export the ANSIBLE_CONFIG environment variable. You can put the .ansible.cfg file alongside Jenkinsfile in the deploy directory. This way, anyone can easily identify that everything in there relates to deployment. Then, using the Pipeline Syntax tool in Ansible, generate the syntax to create environment variables to set.

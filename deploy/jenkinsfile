@@ -1,21 +1,21 @@
 pipeline {
     agent any
-
   stages {
-    stage('Build') {
+    stage('CheckOut SCM') {
       steps {
         script {
-          sh 'echo "Building Stage"'
+         git branch: 'main', url: 'https://github.com/therealqz/ansible-mgt'
         }
       }
     }
 
-    stage('Test') {
+    stage('Run-AnsiblePlaybook') {
       steps {
         script {
-          sh 'echo "Testing Stage"'
+          ansiblePlaybook credentialsId: 'e4ab9107-cc5b-4891-92d9-2a592b6191df', disableHostKeyChecking: true, installation: 'ansible', inventory: '/home/ec2-user/ansible-mgt/inventory/dev.yml', playbook: '/home/ec2-user/ansible-mgt/playbooks/site.yml'
         }
       }
     }
     }
 }
+

@@ -151,3 +151,117 @@ Possible errors to watch out for:
 > Ensure that the git module in Jenkinsfile is checking out SCM to main branch instead of master (GitHub has discontinued the use of te word *Master*)
 
 Jenkins needs to export the ANSIBLE_CONFIG environment variable. You can put the .ansible.cfg file alongside Jenkinsfile in the deploy directory. This way, anyone can easily identify that everything in there relates to deployment. Then, using the Pipeline Syntax tool in Ansible, generate the syntax to create environment variables to set.
+
+---
+
+Create a new git branch and name it `feature/jenkinspipeline-stages`
+Currently we only have the Build stage. I'll add another stage called Test. 
+
+update your jenkinsfile with a 2nd stage `code block` to create the next stage of the pipeline - *TEST* and push the changes to GitHub.
+
+
+```
+pipeline {
+    agent any
+
+  stages {
+    stage('Build') {
+      steps {
+        script {
+          sh 'echo "Building Stage"'
+        }
+      }
+    }
+
+    stage('Test') {
+      steps {
+        script {
+          sh 'echo "Testing Stage"'
+        }
+      }
+    }
+    }
+}
+
+```
+![scan-repo](/images/scan-repo.png)
+
+![blueOcean-multiBranchPipeline](/images/blue-oceanmultibranch-test.png)
+
+To make your new branch show up in Jenkins, we need to tell Jenkins to scan the repository.
+
+Click on the "Administration" button and scan repository on the Jenkins project Dashboard
+
+
+Create a new branch, add more stages into the Jenkins file to simulate below phases. (Just add an echo command like we have in build and test stages)
+   1. Package 
+   2. Deploy 
+   3. Clean up
+5. Verify in Blue Ocean that all the stages are working, then merge your feature branch to the main branch
+6. Eventually, your main branch should have a successful pipeline like this in blue ocean
+____________
+---
+
+##### RUNNING ANSIBLE PLAYBOOK FROM JENKINS
+
+You probably now have a better overview of a typical Jenkins pipeline. Let us get the actual Ansible deployment to work by:
+
+- Installing Ansible on Jenkins
+- Installing Ansible plugin in Jenkins UI
+- Creating Jenkinsfile from scratch. (Delete all you currently have in there and start all over to get Ansible to run successfully)
+
+You can watch a 10 minutes video here to guide you through the entire setup
+
+[Ansible-JenkinsVideo](https://www.youtube.com/watch?v=PRpEbFZi7nI)!
+
+
+Create a new jenkinsfile or do it directly on Jenkins Dashboard.
+
+Generate pipeline code snippets to checkout SCM for GITHUB and Ansible.
+
+![git](/images/git-pipelineGenerator.png)
+------
+![ansible](/images/pipelineSyntax.png)
+
+---
+=======
+
+Possible errors to watch out for:
+
+Ensure that the git module in Jenkinsfile is checking out SCM to main branch instead of masters.
+
+Jenkins needs to export the ANSIBLE_CONFIG environment variable. You can put the .ansible.cfg file alongside Jenkinsfile in the deploy directory. This way, anyone can easily identify that everything in there relates to deployment. Then, using the Pipeline Syntax tool in Ansible, generate the syntax to create environment variables to set.
+
+
+
+================
+
+Possible issues to watch out for when you implement this
+
+Remember that `ansible.cfg` must be exported to environment variable so that Ansible knows where to find Roles. But because you will possibly run Jenkins from different git branches, the location of Ansible roles will change. Therefore, you must handle this dynamically. You can use Linux Stream Editor sed to update the section roles_path each time there is an execution. You may not have this issue if you run only from the main branch.
+
+If you push new changes to Git so that Jenkins failure can be fixed. You might observe that your change may sometimes have no effect. Even though your change is the actual fix required. This can be because Jenkins did not download the latest code from GitHub. Ensure that you start the Jenkinsfile with a clean up step to always delete the previous workspace before running a new one. 
+
+Sometimes you might need to login to the Jenkins Linux server to verify the files in the workspace to confirm that what you are actually expecting is there. Otherwise, you can spend hours trying to figure out why Jenkins is still failing, when you have pushed up possible changes to fix the error.
+
+Another possible reason for Jenkins failure sometimes, is because you have indicated in the Jenkinsfile to check out the main git branch, and you are running a pipeline from another branch. So, always verify by logging onto the Jenkins box to check the workspace, and run git branch command to confirm that the branch you are expecting is there.
+
+If everything goes well for you, it means, the Dev environment has an up-to-date configuration. But what if we need to deploy to other environments?
+
+Are we going to manually update the Jenkinsfile to point inventory to those environments? such as sit, uat, pentest, etc.
+Or do we need a dedicated git branch for each environment, and have the inventory part hard coded there.
+
+Think about those for a minute and try to work out which one sounds more like a better solution.
+
+Manually updating the Jenkinsfile is definitely not an option. And that should be obvious to you at this point. Because we try to automate things as much as possible.
+
+Well, I wont be doing any of the highlighted options. What we will be doing is to parameterise the deployment. So that at the point of execution, the appropriate values are applied.
+
+
+
+
+
+
+
+
+

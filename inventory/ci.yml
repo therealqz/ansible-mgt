@@ -1,7 +1,8 @@
-[webserver]
-3.13.105.29 ansible_ssh_user='ec2-user'
+#[webserver]
+ #3.13.105.29 ansible_ssh_user='ec2-user'
+
 [jenkins]
-3.13.105.29 ansible_sssh_user='ec2-user'
+3.13.105.29 ansible_ssh_user='ec2-user'
 
 #
 #[jenkins]
